@@ -12,7 +12,7 @@ import os
 import matplotlib.pyplot as plt
 import seaborn as sns
 import json
-from mlflow.models import infer_signature
+
 
 import dagshub
 
@@ -156,8 +156,8 @@ def main():
     try:
         # Initialize DagsHub
         logger.info("Initializing DagsHub...")
-        dagshub.init(repo_owner='AMR-ITH', repo_name='yt-comment-analyzer', mlflow=True)
-        mlflow.set_tracking_uri("https://dagshub.com/AMR-ITH/yt-comment-analyzer.mlflow/")
+        # dagshub.init(repo_owner='2023da04151', repo_name='yt-comment-analyzer', mlflow=True)
+        mlflow.set_tracking_uri("https://dagshub.com/2023da04151/yt-comment-analyzer.mlflow")
         mlflow.set_experiment("yt_comment_analyzer_experiment")
         
         logger.info("Starting MLflow run...")

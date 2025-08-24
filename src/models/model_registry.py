@@ -5,7 +5,6 @@ from pathlib import Path
 from mlflow import MlflowClient
 import logging
 import sys
-from mlflow import get_tracking_uri
 
 # Logging setup
 logger = logging.getLogger("model_registry")
@@ -64,60 +63,6 @@ def register_model(model_name : str, model_info : dict):
 
 
 
-# def register_model(model_name: str, model_info: dict):
-#     """Register the model with DagsHub."""
-#     try:
-#         logger.info(f"Registering model: {model_name} with info: {model_info}")
-#         # Initialize MLflow client
-#         client = MlflowClient()
-#         model_uri = f"runs:/{model_info['run_id']}/{model_info['model_path']}"
-        
-#         # CRITICAL CHANGE: Use MlflowClient directly instead of mlflow.register_model()
-#         # This bypasses the unsupported search_logged_models endpoint
-#         try:
-#             # Create registered model if it doesn't exist
-#             registered_model = client.create_registered_model(model_name)
-#             logger.info(f"Created new registered model: {model_name}")
-#         except mlflow.exceptions.RestException as e:
-#             if "RESOURCE_ALREADY_EXISTS" in str(e) or "already exists" in str(e).lower():
-#                 logger.info(f"Model {model_name} already exists, creating new version")
-#             else:
-#                 raise e
-        
-#         # Create model version directly
-#         model_version = client.create_model_version(
-#             name=model_name,
-#             source=model_uri,
-#             run_id=model_info['run_id']
-#         )
-        
-#         # Get the model version and name
-#         registered_model_version = model_version.version
-#         registered_model_name = model_version.name
-        
-#         logger.info(f"Registered model version: {registered_model_version}, name: {registered_model_name}")
-        
-#         # Set a tag on the model version to indicate deployment stage
-#         client.set_model_version_tag(
-#             name=registered_model_name,
-#             version=registered_model_version,
-#             key="deployment_stage",
-#             value="staging"
-#         )
-        
-#         # Set an alias for the model version (wrap in try-catch as it might not be supported)
-#         try:
-#             alias_name = "dissertation_project"
-#             client.set_registered_model_alias(registered_model_name, alias_name, registered_model_version)
-#         except Exception as alias_error:
-#             logger.warning(f"Could not set alias (may not be supported by DagsHub): {alias_error}")
-        
-#         logger.info(f"Model {model_name} registered successfully.")
-        
-#     except Exception as e:
-#         logger.error(f"Failed to register model {model_name}: {e}")
-#         raise
-
 
 def main():
     logger.info("Starting model registry...")
@@ -125,8 +70,7 @@ def main():
     try:
         # Initialize DagsHub
         logger.info("Initializing DagsHub...")
-        dagshub.init(repo_owner='AMR-ITH', repo_name='yt-comment-analyzer', mlflow=True)
-        mlflow.set_tracking_uri("https://dagshub.com/AMR-ITH/yt-comment-analyzer.mlflow/")
+        mlflow.set_tracking_uri("https://dagshub.com/2023da04151/yt-comment-analyzer.mlflow")
 
         # Get project root
         project_root = Path.cwd()

@@ -1,0 +1,5 @@
+outs:
+- md5: 4144fea990fc973c5554efd820e8ae70
+  size: 6926181
+  hash: md5
+  path: reddit.csv
